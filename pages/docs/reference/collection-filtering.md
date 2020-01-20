@@ -7,18 +7,13 @@ title: "过滤集合"
 
 # 过滤
 
-Filtering is one of the most popular tasks in the collection processing.
-In Kotlin, filtering conditions are defined by _predicates_ – lambda functions that take a collection element and return a boolean value: `true` means that the given element matches the predicate, `false` means the opposite.
+过滤是最常用的集合操作之一。在Kotlin中，过滤条件由 _谓词_ 定义， _谓词_ 是一个接受一个集合元素并且返回一个布尔值的lambda表达式：返回 `true` 说明这个元素匹配谓词条件，返回 `false` 说明不匹配。
 
-The standard library contains a group of extension functions that let you filter collections in a single call.
-These functions leave the original collection unchanged, so they are available for both [mutable and read-only](collections-overview.html#集合类型) collections.
-To operate the filtering result, you should assign it to a variable or chain the functions after filtering.
+标准库包含了一组让你能够通过单个调用就可以过滤集合的扩展函数。这些函数不会改变原始集合，因此[可变和只读的](collections-overview.html#集合类型)集合都可以访问它们。为了操作过滤结果，你应该把过滤后的集合赋值给一个变量或者在过滤之后继续调用其他函数。
 
 ## 按谓词过滤
 
-The basic filtering function is [`filter()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter.html).
-When called with a predicate, `filter()` returns the collection elements that match it.
-For both `List` and `Set`, the resulting collection is a `List`, for `Map` it's a `Map` as well.
+基础的过滤函数是[`filter()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter.html)。当使用一个谓词来调用时，`filter()` 返回匹配谓词的集合元素。对于 `List` 和` Set` 对象，过滤结果都是一个 `List` 对象，对 `Map` 对象来说结果还是一个 `Map` 对象。
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -37,12 +32,9 @@ fun main() {
 ```
 </div>
 
-The predicates in `filter()` can only check the values of the elements.
-If you want to use element positions in the filter, use [`filterIndexed()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-indexed.html).
-It takes a predicate with two arguments: the index and the value of an element. 
+`filter()`函数中的谓词只能检查元素的值。如果你想使用元素在集合中的位置，应该使用[`filterIndexed()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-indexed.html)函数。它接受一个带有两个参数的谓词：元素的下标和元素的值。
 
-To filter collections by negative conditions, use [`filterNot()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-not.html).
-It returns a list of elements for which the predicate yields `false`.
+如果想使用否定条件来过滤集合，请使用[`filterNot()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-not.html)函数。它返回一个让谓词返回 `false` 的元素列表。
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -61,9 +53,9 @@ fun main() {
 ```
 </div>
 
-There are also functions that narrow the element type by filtering elements of a given type:
+还有一些函数能够通过过滤给定类型的元素来缩小元素的类型：
 
-* [`filterIsInstance()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-is-instance.html) returns collection elements of a given type. Being called on a `List<Any>`, `filterIsInstance<T>()` returns a `List<T>`, thus allowing you to call functions of the  `T` type on its items.
+* [`filterIsInstance()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-is-instance.html) 返回给定类型的集合元素。由一个 `List<Any>` 类型的对象所调用，`filterIsInstance<T>()` 函数返回一个 `List<T>` 对象，从而允许你在集合元素上调用 `T` 类型对象的函数。
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -79,8 +71,8 @@ fun main() {
 }
 ```
 </div>
-    
-* [`filterNotNull()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-not-null.html) returns all non-null elements. Being called on a `List<T?>`, `filterNotNull()` returns a `List<T: Any>`, thus allowing you to treat the elements as non-null objects.
+
+* [`filterNotNull()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-not-null.html) 函数返回所有的非空元素。由一个 `List<T?>`类型的对象所调用，`filterNotNull()` 函数返回一个 `List<T: Any>` 对象，从而允许你将所有元素视为非空对象。
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -98,8 +90,7 @@ fun main() {
 
 ## 划分
 
-Another filtering function – [`partition()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/partition.html) – filters a collection by a predicate and keeps the elements that don't match it in a separate list.
-So, you have a `Pair` of `List`s as a return value: the first list containing elements that match the predicate and the second one containing everything else from the original collection.
+另一个过滤函数– [`partition()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/partition.html) – 通过一个谓词过滤集合并且将不匹配的元素存放在一个单独的列表中。因此，你得到一个 `List` 的 `Pair` 作为返回值：第一个列表包含匹配谓词的元素并且第二个列表包含原始集合中的所有其他元素。
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -118,11 +109,11 @@ fun main() {
 
 ## 检验谓词
 
-Finally, there are functions that simply test a predicate against collection elements:
+最后，有些函数只是针对集合元素简单地检测一个谓词：
 
-* [`any()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/any.html) returns `true` if at least one element matches the given predicate.
-* [`none()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/none.html) returns `true` if none of the elements match the given predicate.
-* [`all()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/all.html) returns `true` if all elements match the given predicate. Note that `all()` returns `true` when called with any valid predicate on an empty collection. Such behavior is known in logic as [_vacuous truth_](https://en.wikipedia.org/wiki/Vacuous_truth).
+* [`any()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/any.html) 返回 `true` 如果至少有一个元素匹配谓词。
+* [`none()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/none.html) 返回 `true` 如果没有元素匹配谓词。
+* [`all()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/all.html) 返回 `true` 如果所有元素都匹配谓词。注意，在一个空集合上使用任何有效的谓词去调用 `all()` 函数都会返回 `true` 。这种行为在逻辑上被称为 [_vacuous truth_](https://en.wikipedia.org/wiki/Vacuous_truth)。
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -141,8 +132,8 @@ fun main() {
 ```
 </div>
 
-`any()` and `none()` can also be used without a predicate: in this case they just check the collection emptiness.
-`any()` returns `true` if there are elements and `false` if there aren't; `none()` does the opposite.
+`any()` 和 `none()` 也可以不带谓词使用：在这种情况下它们只是用来检查集合是否为空。
+如果集合中有元素，`any()` 返回 `true` ，如果没有则返回 `false`；`none()` 与之相反。
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
